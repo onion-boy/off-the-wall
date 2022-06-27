@@ -11,12 +11,12 @@
         "resolveJsonModule": true
     },
     "exclude": [
-        "./node_modules/*",
-        "./public/*",
-        "./dist/*"
+        "./node_modules/**/*",
+        "./public/**/*",
+        "./dist/**/*"
     ],
     "include": [
-        "./src/api/*",
+        "./src/api/**/*",
         "./config.json"
     ]
 }
