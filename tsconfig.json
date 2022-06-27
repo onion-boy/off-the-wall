@@ -4,7 +4,6 @@
         "experimentalDecorators": true,
         "alwaysStrict": true,
         "strict": true,
-        "rootDir": "./src/api",
         "outDir": "./dist",
         "lib": ["ES2015"],
         "module": "CommonJS",
@@ -12,8 +11,12 @@
         "resolveJsonModule": true
     },
     "exclude": [
-        "./node_modules",
-        "./public",
-        "./dist"
+        "./node_modules/*",
+        "./public/*",
+        "./dist/*"
+    ],
+    "include": [
+        "./src/api/*",
+        "./config.json"
     ]
 }

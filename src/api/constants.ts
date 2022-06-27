@@ -1,4 +1,4 @@
-import * as constants from "./constants.json";
+import * as constants from "../../config.json";
 
 export type Mode = "dev" | "prod";
 export type Config = typeof constants;
