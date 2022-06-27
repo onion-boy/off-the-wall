@@ -1,0 +1,12 @@
+mixin nav-item(name, svg)
+    input.nav-input.hidden(id=`s-${name}` name="nav-label" type="radio" checked=(path === `/${name}` || (path === '/' && name === 'home')))
+    label.nav-label(for=`s-${name}`)
+        a.tw.container.center-opp.nav-link(href=`/${name}`)
+            img.nav-icon(src=`/assets/${svg}.svg` alt=name)
+            span.stretch.nav-content= name
+            .p4.nav-selected.hidden
+
+mixin nav-stack()
+    +nav-item('home', 'home')
+    +nav-item('dashboard', 'economy')
+    +nav-item('profile', 'person')

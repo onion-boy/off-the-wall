@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+        "allowJs": false,
+        "experimentalDecorators": true,
+        "alwaysStrict": true,
+        "strict": true,
+        "rootDir": "./src/api",
+        "outDir": "./dist",
+        "lib": ["ES2015"],
+        "module": "CommonJS",
+        "noImplicitAny": true,
+        "resolveJsonModule": true
+    },
+    "exclude": [
+        "./node_modules",
+        "./public",
+        "./dist"
+    ]
+}

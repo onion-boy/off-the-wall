@@ -1,0 +1,34 @@
+{
+  "dev": {
+    "serverPort": 8000,
+    "hostname": "localhost",
+    "database": {
+      "tables": {
+        "profiles": ["basic", "passwords"]
+      },
+      "config": {
+        "host": "localhost",
+        "port": 5432,
+        "user": "extra",
+        "database": "otw",
+        "password": "ENV:DEV_DB_PASSWORD"
+      }
+    }
+  },
+  "prod": {
+    "serverPort": 80,
+    "hostname": "",
+    "database": {
+        "tables": {
+          "profiles": ["basic", "passwords"]
+        },
+        "config": {
+          "host": "",
+          "port": 0,
+          "user": "",
+          "database": "",
+          "password": "ENV:PROD_DB_PASSWORD"
+        }
+      }
+  }
+}

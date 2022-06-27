@@ -1,0 +1,27 @@
+include mixins.pug
+
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(http-equiv="X-UA-Compatible" content="IE=edge")
+        meta(name="viewport" content="width=device-width, initial-scale=1.0")
+        link(rel="preconnect" href="https://fonts.googleapis.com")
+        link(rel="preconnect" href="https://fonts.gstatic.com", crossorigin)
+        link(rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;700&family=Roboto+Slab:wght@300;400;700&display=swap")
+        link(rel="stylesheet" href="/styles.css")
+        title off the wall
+    body.ofw
+        #root.stack
+            #top.container.is-top
+                #top-left.left-side.ofb.center-opp
+                    #dec.p5
+                    a#home.tw.link.block(href="/home") off the wall
+                #top-right.w.stretch.in-top
+            #main.container
+                #nav.p1.tw.stack.left-side
+                    +nav-stack
+                #content.ofw.stack.stretch
+                    #container
+                    
+        script(src="/main.js")
