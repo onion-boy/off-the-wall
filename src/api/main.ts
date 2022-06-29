@@ -2,15 +2,17 @@ import { config } from "dotenv";
 
 config();
 
-import { ApplicationServer } from "./server/server";
-import { DatabaseConnection } from "./database/connect";
+import { ApplicationServer } from "./server";
+import { DatabaseConnection } from "./database";
+import { sideways } from "./server/sideways";
+import { Profile } from "./database/actions/profiles";
 
-// auto run
-(async function main() {
-  const server = new ApplicationServer();
-  const db = new DatabaseConnection();
+export const server = new ApplicationServer();
+export const db = new DatabaseConnection();
 
-  server
-    .link(db)
-    .open();
-})();
+sideways(server.link(db), server.start())
+  .then(async () => {
+    const user = new Profile();
+    const it = await user.CreateDefault("ezragoldner", "ezgoldner@gmail.com", "password");
+    console.log(it);
+  });
