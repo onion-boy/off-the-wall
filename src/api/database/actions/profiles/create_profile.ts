@@ -1,9 +1,9 @@
-import { DoesPrepare, register } from "../actions";
+import { DoesPrepare, register } from "..";
 
 @register({
-  provides: [1, 2],
+  provides: 2,
 })
-export class CreateProfileBasic implements DoesPrepare {
+export class CreateProfile implements DoesPrepare {
   prepare(username: string, email: string) {
     const registered = new Date();
     return {
