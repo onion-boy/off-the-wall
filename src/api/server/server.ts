@@ -1,8 +1,10 @@
 import * as express from "express";
 import { join } from "path";
 import constants, { Mode } from "../constants";
+import { Model } from "../database/actions";
 import { DatabaseConnection } from "../database/connect";
 import { Controller, controllers } from "./controllers";
+import { UsableController } from "./controllers/controllers";
 
 export class ApplicationServer {
   database: DatabaseConnection;
@@ -26,7 +28,7 @@ export class ApplicationServer {
     return database.isReady();
   }
 
-  start(imports: (typeof Controller)[], mode: Mode = "dev") {
+  start<T extends Model[]>(imports: UsableController<T>[], mode: Mode = "dev") {
     return new Promise<void>((resolve) => {
       const { serverPort, hostname } = constants[mode];
       const paths = ["home", "dashboard", "profile"];
@@ -36,7 +38,9 @@ export class ApplicationServer {
         const { actions } = controllers[imp.registeredName];
         for (let j in actions) {
           const action = actions[j];
-          this.app[action.method](action.path, action.function);
+          this.app[action.method](action.path, (req, res) => {
+            action.function.apply(action.instance, [req, res]);
+          });
         }
       }
 

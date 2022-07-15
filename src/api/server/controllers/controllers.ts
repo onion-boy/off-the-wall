@@ -3,17 +3,15 @@ import { Request, Response } from "express";
 
 export const controllers: Record<string, RegisteredController> = {};
 
-export class Controller implements ControllerInterface {
+export class Controller<T> {
   static registeredName: string;
-  instance = {};
-}
-
-export interface ControllerInterface {
-    instance: Model | Record<string, Model>;
+  instance: T & Record<string, T> & ControllerAction;
 }
 
 export type HTTPMethod = "get" | "post" | "put" | "delete";
+export type UsableController<T> = Controller<T>["constructor"] & { registeredName: string };
 export type ControllerAction = (
+  this: Controller<unknown>,
   req: Request,
   res: Response,
 ) => (unknown | Promise<unknown>);
@@ -22,25 +20,26 @@ export type RegisteredController = {
     path: string;
     method: HTTPMethod;
     function: ControllerAction;
+    instance: Controller<unknown>;
   }[];
 };
 
-export function controller(
+export function controller<T extends typeof Model>(
   starterPath: string,
-  needs: typeof Model | (typeof Model)[] = [],
+  needs: T | T[] = [],
 ) {
-  return function (constructor: typeof Controller) {
+  return function (constructor: UsableController<T>) {
     const name = getControllerName(constructor.name);
     const { actions } = controllers[name];
 
     constructor.registeredName = name;
 
     if (needs instanceof Array) {
-        for (let i in needs) {
-            const need = needs[i];
-            const inst = constructor.prototype.instance as Record<string, Model>;
-            inst[need.name] = new need;
-        }
+      for (let i in needs) {
+        const need = needs[i];
+        const inst = constructor.prototype.instance as Record<string, Model>;
+        inst[need.name] = new need;
+      }
     } else {
       constructor.prototype.instance = new needs();
     }
@@ -54,7 +53,7 @@ export function controller(
 
 export function http(method: HTTPMethod) {
   return function (path: string) {
-    return function <T extends Controller>(
+    return function <T extends Controller<Model>>(
       instance: T,
       property: string,
     ) {
@@ -68,7 +67,8 @@ export function http(method: HTTPMethod) {
       controllers[name].actions.push({
         path,
         method,
-        function: instance[property],
+        instance,
+        function: instance[property as keyof Controller<Model>] as ControllerAction,
       });
     };
   };

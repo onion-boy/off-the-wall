@@ -4,13 +4,13 @@ import { Profile } from "../../database/actions/profiles";
 import { simple } from "../../database/simplify";
 
 @controller("/profiles", Profile)
-export class ProfilesController extends Controller {
+export class ProfilesController extends Controller<Profile> {
 
   @get("/:id")
   async retrieveProfile(req: Request, res: Response) {
     const user = await this.instance.findById(parseInt(req.params.id));
     res.json(
-        simple(user)
+      simple(user)
     );
   }
 }
